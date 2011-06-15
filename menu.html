@@ -11,7 +11,11 @@
       </ul>
       </li>
       <li><a href="#">Create a new guide</a></li>
-      <li><a href="#">Login/logout</a></li>
-      <li><a href="register">Register</a></li>
+      {% if not user.is_authenticated %}
+      <li><a href="/accounts/login">Login</a></li>
+      <li><a href="/accounts/register">Register</a></li>
+      {% else %}
+      <li><a href="/accounts/logout">Logout</a></li>
+      {% endif %}
    </ul>
 </div>
