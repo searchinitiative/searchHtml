@@ -1,20 +1,19 @@
 <div class="dropdown">
    <ul>
-      <li><a href="#">News</a></li>
-      <li><a href="#">Guides</a>
+      <li><a href="/news">News</a></li>
+      <li><a href="/articles">Guides</a>
       <ul>
-         <li><a href="#">Link one</a></li>
-         <li><a href="#">Link two</a></li>
-         <li><a href="#">Link three</a></li>
-         <li><a href="#">Link four</a></li>
-         <li><a href="#">Link five is a long link that wraps</a></li>
+         {% for tag in top5tags %}
+         <li> <a href="{{tag.get_absolute_url}}"> {{ tag.name }} </a> </li>
+         {% endfor %}
       </ul>
       </li>
-      <li><a href="#">Create a new guide</a></li>
       {% if not user.is_authenticated %}
       <li><a href="/accounts/login">Login</a></li>
       <li><a href="/accounts/register">Register</a></li>
       {% else %}
+      <li><a href="/articles/create">Create a new guide</a></li>
+      <li><a href="/articles/newtag">Create a new tag</a></li>
       <li><a href="/accounts/logout">Logout</a></li>
       {% endif %}
    </ul>
