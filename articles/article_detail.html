@@ -1,5 +1,12 @@
 {% extends "base.html" %}
+{% load xsscheck %}
 
 {% block content %}
 Hello I have a name of {{object.name}}
+<br>
+<br>
+<br>
+{{object.text|xsscheck}}
+
+
 {% endblock %}
