@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load xsscheck %}
+
+{% block content %}
+Hello I have a name of {{article.name}}
+<br>
+<br>
+<br>
+{{article.text|xsscheck}}
+<br>
+<br>
+<br>
+
+I am now displaying comments
+<br>
+<br>
+<br>
+
+
+{% for comment in comments %}
+<p>
+{{ comment.text }}
+</p>
+{% endfor %}
+
+
+{% endblock %}
