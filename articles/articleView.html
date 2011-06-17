@@ -16,12 +16,40 @@ I am now displaying comments
 <br>
 <br>
 
+{% if user.is_authenticated %}
+<form id="commentForm" method="post" action="">
+{% csrf_token %}
+{{form.as_p}}
+<input type="submit" value="add" />
+</form>
+{% endif %}
 
 {% for comment in comments %}
 <p>
 {{ comment.text }}
 </p>
 {% endfor %}
+
+
+{% include "ajaxCode.html" %}
+<script type="text/javascript">
+   function funajax(data)
+   {
+      if (!data.error)
+         $('#content').append('<p>' + data.comment + '</p>');
+   }
+
+   $(document).ready(function ()
+   {
+      $('#commentForm').submit(function ()
+      {
+         var sendData = $('#commentForm textarea').serialize();
+         $.post("/articles/submitComment/{{article.pk}}/",sendData,funajax,"json");
+         return false;
+      });
+   });
+</script>
+
 
 
 {% endblock %}
