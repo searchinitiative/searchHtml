@@ -27,6 +27,8 @@ I am now displaying comments
 {% for comment in comments %}
 <p>
 {{ comment.text }}
+<br>
+Written by {{comment.author.username}}
 </p>
 {% endfor %}
 
@@ -36,7 +38,7 @@ I am now displaying comments
    function funajax(data)
    {
       if (!data.error)
-         $('#content').append('<p>' + data.comment + '</p>');
+         $('#content').append('<p>' + data.comment + '<br>Written by '+data.author+ '</p>');
    }
 
    $(document).ready(function ()
