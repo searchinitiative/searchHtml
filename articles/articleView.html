@@ -57,6 +57,7 @@ I am now displaying comments
 <br>
 
 
+<div id="commentList">
 {% for comment in comments %}
 <p>
 {{ comment.text }}
@@ -77,6 +78,7 @@ Written by {{comment.author.username}}
 {% endif %}
 </p>
 {% endfor %}
+</div>
 
 {% if user.is_authenticated %}
 <form id="commentForm" method="post" action="">
@@ -91,7 +93,7 @@ Written by {{comment.author.username}}
    function funajax(data)
    {
       if (!data.error)
-         $('#content').append('<p>' + data.comment + '<br>Written by '+data.author+ '</p>');
+         $('#commentList').append('<p>' + data.comment + '<br>Written by '+data.author+ '</p>');
    }
 
    $(document).ready(function ()
