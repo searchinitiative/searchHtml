@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load xsscheck %}
+
+{% block content %}
+<br>
+<br>
+<br>
+{{comment.text}}
+<br>
+<br>
+<br>
+<form id="editForm" method="post" action="">
+{% csrf_token %}
+{{form.as_p}}
+<input type="submit" value="add" />
+</form>
+{% endblock %}

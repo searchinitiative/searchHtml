@@ -2,6 +2,32 @@
 {% load xsscheck %}
 
 {% block content %}
+<style type="text/css">
+.ifJava 
+{
+   display: none;
+}
+
+</style>
+   <script type="text/javascript">
+   $(document).ready(function ()
+   {
+      $(".ifJava").show();
+      $(".hidden").hide();
+      $("#editForm").hide();
+      $("#unhideForm").click(function ()
+         {
+         $("#editForm").toggle();
+         });
+
+      $(".unhideComment").click(function ()
+         {
+         var b = '#comment' + $(this).attr("data-commentId");
+         $(b).toggle();
+         });
+   });
+</script>
+
 Hello I have a name of {{article.name}}
 <br>
 <br>
@@ -10,11 +36,47 @@ Hello I have a name of {{article.name}}
 <br>
 <br>
 <br>
+{% if canEdit %}
+<div class="ifJava">
+   <form id="editForm" method="post" action="/articles/editArticle/{{article.id}}/">
+   {% csrf_token %}
+   {{editForm.as_p}}
+   <input type="submit" value="Update" />
+</form>
+   <input id="unhideForm" type="submit" value="Edit this post" />
+</div>
+<noscript>
+   <a href="/articles/editArticle/{{article.id}}/"> Edit your post </a>
+</noscript>
+{% endif %}
+
 
 I am now displaying comments
 <br>
 <br>
 <br>
+
+
+{% for comment in comments %}
+<p>
+{{ comment.text }}
+<br>
+Written by {{comment.author.username}}
+{% if comment.canEdit %}
+<div class="ifJava">
+   <form class="hidden" id="comment{{comment.id}}" method="post" action="/articles/editComment/{{comment.id}}/">
+   {% csrf_token %}
+   {{comment.editForm.as_p}}
+   <input type="submit" value="Update" />
+</form>
+<input class="unhideComment" type="submit" data-commentId= "{{comment.id}}" value="Edit this post" />
+</div>
+<noscript>
+   <a href="/articles/editComment/{{comment.id}}/"> Edit your comment </a>
+</noscript>
+{% endif %}
+</p>
+{% endfor %}
 
 {% if user.is_authenticated %}
 <form id="commentForm" method="post" action="">
@@ -23,15 +85,6 @@ I am now displaying comments
 <input type="submit" value="add" />
 </form>
 {% endif %}
-
-{% for comment in comments %}
-<p>
-{{ comment.text }}
-<br>
-Written by {{comment.author.username}}
-</p>
-{% endfor %}
-
 
 {% include "ajaxCode.html" %}
 <script type="text/javascript">

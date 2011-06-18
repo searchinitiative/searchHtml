@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load xsscheck %}
+
+{% block content %}
+Hello I have a name of {{article.name}}
+<br>
+<br>
+<br>
+{{article.text|xsscheck}}
+<br>
+<br>
+<br>
+<form id="editForm" method="post" action="">
+{% csrf_token %}
+{{form.as_p}}
+<input type="submit" value="add" />
+</form>
+{% endblock %}
